@@ -9,11 +9,8 @@ public abstract class BasePage {
     public BasePage(WebDriver driver) {
         this.driver = driver;
     }
-    public String getTitle () {
-        return driver.getTitle();
-    }
 
-    public String getCurURL(){
-        return driver.getCurrentUrl();
+    public String getTitle() {
+        return driver.getTitle();
     }
 }

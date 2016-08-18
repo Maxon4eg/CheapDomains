@@ -1,9 +1,7 @@
 package pages;
 
 
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -13,7 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class RegPage extends BasePage {
 
-    public String URL = "http://www.cheapdomains.com.au/register/member_register_test.php";
+    public final String PAGE_URL = "http://www.cheapdomains.com.au/register/member_register_test.php";
 
     @FindBy(name = "username_login")
     @CacheLookup
@@ -86,7 +84,7 @@ public class RegPage extends BasePage {
 
     @FindBy(xpath = ".//*/*[@value='Login Now']")
     @CacheLookup
-    public WebElement login;
+    public WebElement loginBtn;
 
     @FindBy(xpath = ".//*/*[@value='Continue Order']")
     @CacheLookup
@@ -98,12 +96,26 @@ public class RegPage extends BasePage {
     }
 
     public RegPage openPage() {
-        driver.get(URL);
+        //handling "Unhandlen_Alert_Exception while using chrome
+
+        try {
+            driver.get(PAGE_URL);
+
+        } catch (UnhandledAlertException e) {
+            System.out.println(alert().getText());
+            driver.switchTo().alert().accept();
+        }
         return this;
     }
 
-    public Alert alert(){
-        return new WebDriverWait(driver, 10).until(ExpectedConditions.alertIsPresent());
+    public Alert alert() {
+        try {
+            return new WebDriverWait(driver, 10).until(ExpectedConditions.alertIsPresent());
+
+        } catch (TimeoutException e) {
+            System.out.println("Alert is not appeared");
+            return null;
+        }
     }
 
     public Select countrySelector() { //The Select class is not work properly with last version of firefox
