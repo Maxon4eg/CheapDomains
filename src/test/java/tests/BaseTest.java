@@ -3,8 +3,8 @@ package tests;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.opera.OperaDriver;
 import org.testng.annotations.*;
 import util.Props;
 
@@ -33,7 +33,7 @@ public class BaseTest {
         driver.manage().window().maximize();
     }
 
-    @AfterClass(alwaysRun = false, enabled = false)
+    @AfterClass(alwaysRun = true)
     public void tearDown() throws Exception {
         if (this.driver != null){
             this.driver.quit();
@@ -44,11 +44,17 @@ public class BaseTest {
     private WebDriver getDriver (String driver) throws Exception {
         switch (driver){
             case "firefox":
-                System.setProperty("webdriver.gecko.driver",Props.getKey("browser.path"));
+                System.setProperty("webdriver.gecko.driver",Props.getKey("firefox.path"));
                 return new FirefoxDriver();
             case "chrome":
+                System.setProperty("webdriver.chrome.driver",Props.getKey("chrome.path"));
                 return new ChromeDriver();
+            case "opera":
+                return new OperaDriver();
             case "IE":
+                /*
+                not implemented yet
+                 */
                 return new InternetExplorerDriver();
             default:
                 throw new Exception("Unsupported browser");

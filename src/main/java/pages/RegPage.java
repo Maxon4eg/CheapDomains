@@ -1,6 +1,7 @@
 package pages;
 
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.CacheLookup;
@@ -22,7 +23,6 @@ public class RegPage extends BasePage {
     @CacheLookup
     public WebElement password_login;
 
-
     @FindBy(name = "first_name")
     @CacheLookup
     public WebElement firstName;
@@ -30,7 +30,6 @@ public class RegPage extends BasePage {
     @FindBy(name = "last_name")
     @CacheLookup
     public WebElement lastName;
-
 
     @FindBy(name = "address")
     @CacheLookup
@@ -103,15 +102,11 @@ public class RegPage extends BasePage {
         return this;
     }
 
-    public boolean isAlertPresent() {
-        return new WebDriverWait(driver, 10).until(ExpectedConditions.alertIsPresent()) != null;
+    public Alert alert(){
+        return new WebDriverWait(driver, 10).until(ExpectedConditions.alertIsPresent());
     }
 
-    public String getAlertTxt() {
-        return new WebDriverWait(driver, 10).until(ExpectedConditions.alertIsPresent()).getText();
-    }
-
-    public Select countrySelector() { //The Select class is not work properly with firefox
+    public Select countrySelector() { //The Select class is not work properly with last version of firefox
         return new Select(country);
     }
 
